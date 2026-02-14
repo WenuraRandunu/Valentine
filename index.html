@@ -17,37 +17,46 @@ body {
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* Background animation */
 @keyframes gradientMove {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
 }
 
-/* Main text */
 .centerText {
     position: absolute;
     top: 35%;
     width: 100%;
     text-align: center;
     color: gold;
-    font-size: 3.2em;  /* default desktop size */
+    font-size: 3.2em;
     line-height: 1.2;
     text-shadow: 0 0 15px gold, 0 0 30px orange;
     opacity: 0;
     animation: fadeIn 3s forwards, pulse 3s infinite 3s;
 }
+
 .mainLine {
-    white-space: nowrap;   /* Forces single line */
+    white-space: nowrap; /* single line on desktop */
 }
 
 .bigHeart {
-    font-size: 2.5em;      /* Makes heart much bigger */
+    font-size: 3em;
     margin-top: 15px;
     animation: heartbeat 1.5s infinite;
+    text-shadow: 0 0 20px red, 0 0 40px pink;
 }
 
-/* Strong heartbeat animation */
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
 @keyframes heartbeat {
     0% { transform: scale(1); }
     25% { transform: scale(1.3); }
@@ -56,19 +65,6 @@ body {
     100% { transform: scale(1); }
 }
 
-/* Fade-in animation */
-@keyframes fadeIn {
-    to { opacity: 1; }
-}
-
-/* Subtle pulse */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-/* Particle styling */
 .particle {
     position: absolute;
     font-size: 24px;
@@ -90,7 +86,6 @@ body {
     font-size: 18px;
 }
 
-/* Tap-to-play overlay */
 #playButton {
     position: fixed;
     top: 0; left: 0;
@@ -104,28 +99,43 @@ body {
     cursor: pointer;
     z-index: 999;
 }
+
+/* 🔥 MOBILE FIX */
+@media (max-width: 768px) {
+
+    .centerText {
+        font-size: 2em;      /* smaller text */
+        top: 30%;
+    }
+
+    .mainLine {
+        white-space: normal; /* allow wrapping */
+        padding: 0 15px;     /* prevent edge clipping */
+    }
+
+    .bigHeart {
+        font-size: 4em;      /* slightly bigger heart on mobile */
+    }
+}
 </style>
 </head>
 
 <body>
 
-<!-- Main text -->
 <div class="centerText">
     <div class="mainLine">Happy Valentine’s Day</div>
     <div class="bigHeart">❤️</div>
 </div>
 
-<!-- Audio -->
 <audio id="bgMusic" loop>
   <source src="Audio/Music.mp3" type="audio/mp3">
 </audio>
 
-<!-- Tap-to-play overlay -->
 <div id="playButton">Tap to Play Music 🎵</div>
 
 <script>
-// Particle creation function with max limit
 const maxParticles = 30;
+
 function createParticle(emoji, extraClass, speed) {
     if (document.querySelectorAll(".particle").length > maxParticles) return;
     const el = document.createElement("div");
@@ -137,32 +147,26 @@ function createParticle(emoji, extraClass, speed) {
     setTimeout(() => el.remove(), speed * 1000);
 }
 
-// Hearts
 setInterval(() => {
     createParticle("💖", "", 6 + Math.random() * 4);
 }, 600);
 
-// Rose Petals
 setInterval(() => {
     createParticle("🌹", "", 8 + Math.random() * 3);
 }, 900);
 
-// Sparkles
 setInterval(() => {
     createParticle("✨", "sparkle", 4 + Math.random() * 2);
 }, 800);
 
-// Tap-to-play for mobile
 const audio = document.getElementById("bgMusic");
 const playBtn = document.getElementById("playButton");
 
 playBtn.addEventListener("click", () => {
     audio.play();
-    playBtn.style.display = "none";  // hide overlay
+    playBtn.style.display = "none";
 });
 </script>
 
 </body>
 </html>
-
-
