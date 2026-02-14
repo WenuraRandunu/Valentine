@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <title>Happy Valentine's Day</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body {
     margin: 0;
@@ -11,50 +13,52 @@ body {
     height: 100vh;
     background: linear-gradient(-45deg, #2a003f, #6a0572, #ff4da6, #ff0080);
     background-size: 400% 400%;
-    animation: gradientMove 12s ease infinite;
+    animation: gradientMove 20s ease infinite;
     font-family: 'Segoe UI', sans-serif;
 }
 
+/* Background animation */
 @keyframes gradientMove {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
 }
 
+/* Main text */
 .centerText {
     position: absolute;
     top: 35%;
     width: 100%;
     text-align: center;
     color: gold;
-    font-size: 12vw;   /* responsive size */
-    line-height: 1.1;
-    text-shadow: 0 0 20px gold, 0 0 40px orange;
+    font-size: 3.2em;  /* default desktop size */
+    line-height: 1.2;
+    text-shadow: 0 0 15px gold, 0 0 30px orange;
     opacity: 0;
     animation: fadeIn 3s forwards, pulse 3s infinite 3s;
 }
 
+/* Mobile-specific text scaling */
+@media (max-width: 768px) {
+    .centerText {
+        font-size: 14vw;   /* bigger on phones */
+        top: 30%;
+    }
+}
+
+/* Fade-in animation */
 @keyframes fadeIn {
     to { opacity: 1; }
 }
 
+/* Subtle pulse */
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
 }
 
-.signature {
-    position: absolute;
-    bottom: 40px;
-    width: 100%;
-    text-align: center;
-    font-size: 1.4em;
-    color: white;
-    opacity: 0;
-    animation: fadeIn 5s forwards;
-}
-
+/* Particle styling */
 .particle {
     position: absolute;
     font-size: 24px;
@@ -75,61 +79,79 @@ body {
 .sparkle {
     font-size: 18px;
 }
-    @media (max-width: 768px) {
-    .centerText {
-        font-size: 14vw;
-        top: 30%;
-    }
-}
 
+/* Tap-to-play overlay */
+#playButton {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+}
 </style>
 </head>
 
 <body>
 
+<!-- Main text -->
 <div class="centerText">
     Happy
     Valentine’s
     Day ❤️
 </div>
 
-<audio autoplay loop>
+<!-- Audio -->
+<audio id="bgMusic" loop>
   <source src="Audio/Music.mp3" type="audio/mp3">
 </audio>
 
+<!-- Tap-to-play overlay -->
+<div id="playButton">Tap to Play Music 🎵</div>
+
 <script>
-function createParticle(emoji, sizeClass, speed) {
+// Particle creation function with max limit
+const maxParticles = 30;
+function createParticle(emoji, extraClass, speed) {
+    if (document.querySelectorAll(".particle").length > maxParticles) return;
     const el = document.createElement("div");
-    el.className = "particle " + sizeClass;
+    el.className = "particle " + extraClass;
     el.innerHTML = emoji;
     el.style.left = Math.random() * window.innerWidth + "px";
     el.style.animationDuration = speed + "s";
     document.body.appendChild(el);
-
-    setTimeout(() => {
-        el.remove();
-    }, speed * 1000);
+    setTimeout(() => el.remove(), speed * 1000);
 }
 
-// 💕 Floating Hearts
+// Hearts
 setInterval(() => {
     createParticle("💖", "", 6 + Math.random() * 4);
-}, 300);
+}, 600);
 
-// 🌹 Rose Petals
+// Rose Petals
 setInterval(() => {
     createParticle("🌹", "", 8 + Math.random() * 3);
-}, 700);
+}, 900);
 
-// ✨ Sparkles
+// Sparkles
 setInterval(() => {
     createParticle("✨", "sparkle", 4 + Math.random() * 2);
-}, 400);
+}, 800);
 
+// Tap-to-play for mobile
+const audio = document.getElementById("bgMusic");
+const playBtn = document.getElementById("playButton");
+
+playBtn.addEventListener("click", () => {
+    audio.play();
+    playBtn.style.display = "none";  // hide overlay
+});
 </script>
 
 </body>
 </html>
-
-
-
