@@ -23,12 +23,13 @@ body {
 
 .centerText {
     position: absolute;
-    top: 40%;
+    top: 35%;
     width: 100%;
     text-align: center;
     color: gold;
-    font-size: 3.2em;
-    text-shadow: 0 0 15px gold, 0 0 30px orange;
+    font-size: 12vw;   /* responsive size */
+    line-height: 1.1;
+    text-shadow: 0 0 20px gold, 0 0 40px orange;
     opacity: 0;
     animation: fadeIn 3s forwards, pulse 3s infinite 3s;
 }
@@ -74,6 +75,12 @@ body {
 .sparkle {
     font-size: 18px;
 }
+    @media (max-width: 768px) {
+    .centerText {
+        font-size: 14vw;
+        top: 30%;
+    }
+}
 
 </style>
 </head>
@@ -81,7 +88,9 @@ body {
 <body>
 
 <div class="centerText">
-    Happy Valentine's Day ❤️
+    Happy<br>
+    Valentine’s<br>
+    Day ❤️
 </div>
 
 <audio autoplay loop>
@@ -121,4 +130,5 @@ setInterval(() => {
 
 </body>
 </html>
+
 
